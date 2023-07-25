@@ -14,7 +14,7 @@ const options = {
   newTopicName: '子节点',
   direction: MindElixir.SIDE,
   // direction: MindElixir.RIGHT,
-  locale: 'en',
+  locale: 'cn',
   draggable: true,
   editable: true,
   contextMenu: true,

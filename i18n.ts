@@ -17,6 +17,7 @@ const cn = {
   tagsSeparate: '多个标签半角逗号分隔',
   iconsSeparate: '多个图标半角逗号分隔',
   url: 'URL',
+  img: '图片'
 }
 export default {
   cn,

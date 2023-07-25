@@ -29,5 +29,8 @@
   },
   "peerDependencies": {
     "mind-elixir": "^2.0.1"
+  },
+  "dependencies": {
+    "cos-js-sdk-v5": "^1.4.18"
   }
 }
