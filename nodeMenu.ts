@@ -235,8 +235,8 @@ export default function (mind: MindElixirInstance) {
   const proxy = new Proxy(
     {
       url: "",
-      height: "90",
-      width: "90",
+      height: '',
+      width: '',
     },
     {
       set: function (target, property, value) {
@@ -249,14 +249,25 @@ export default function (mind: MindElixirInstance) {
           } else {
             img.className = "hidden img-container";
             imgBtn.className = "svg img-btn";
+            label.children[0].value = "";
+            label.children[1].value = "";
           }
         }
         if (property === "width") {
-          label.children[0].value = value;
+          if (proxy.url === "") {
+            label.children[0].value = "";
+          } else {
+            label.children[0].value = value;
+          }
         }
         if (property === "height") {
-          label.children[1].value = value;
+          if (proxy.url === "") {
+            label.children[1].value = "";
+          } else {
+            label.children[1].value = value;
+          }
         }
+
         updataImg();
         return true;
       },
@@ -286,7 +297,7 @@ export default function (mind: MindElixirInstance) {
     if (proxy.url === "") {
       mind.reshapeNode(mind.currentNode, { image: null });
     } else {
-      mind.reshapeNode(mind.currentNode, { image: {...proxy} });
+      mind.reshapeNode(mind.currentNode, { image: { ...proxy } });
     }
   }
 
@@ -344,11 +355,15 @@ export default function (mind: MindElixirInstance) {
     urlInput.value = nodeObj.hyperLink || "";
     memoInput.value = nodeObj.memo || "";
 
-    // img
-    console.log(nodeObj?.image);
-    
-    proxy.url = nodeObj?.image?.url || "";
-    proxy.width = nodeObj?.image?.width || 90;
-    proxy.height = nodeObj?.image?.height || 90;
+    /**
+     * proxy.width = nodeObj.image?.width || 90;不能使用这种方
+     * 你需要一个变量接收 nodeObj.image?.width || 90
+     * 因为如果直接复赋值整个表达式，它不会直接计算，而是将整个表达式都传递给 set
+     * 这样，会出现一些问题： 比如，拿不到 width 之类的
+     */
+    let imageObj = nodeObj.image;
+    proxy.url = imageObj?.url || "";
+    proxy.width = imageObj?.width || 90;
+    proxy.height = imageObj?.height || 90;
   });
 }

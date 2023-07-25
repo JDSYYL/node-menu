@@ -1,5 +1,6 @@
 import MindElixir, { E } from 'mind-elixir'
 import example from 'mind-elixir/dist/example1'
+import data1 from './data.js'
 
 import nodeMenu from './nodeMenu'
 // import nodeMenu from '@mind-elixir/plugin-name'
@@ -55,7 +56,7 @@ const options = {
 const mind = new MindElixir(options)
 mind.install(nodeMenu)
 const data = MindElixir.new('new topic')
-mind.init(example) // or try `example`
+mind.init(data1) // or try `example`
 function sleep() {
   return new Promise((res, rej) => {
     setTimeout(() => res(), 1000)
