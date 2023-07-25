@@ -66,7 +66,9 @@ export default class COSUploadFile {
           Bucket: COSUploadFile.BUCKET /* 填入您自己的存储桶，必须字段 */,
           Region:
             COSUploadFile.REGION /* 存储桶所在地域，例如ap-beijing，必须字段 */,
-          Key: `ph/${this.file.name}` /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */,
+          Key: `ph/${this.generateHashWithTimeAndRandom(this.file.name)}.${this.file.name.split(
+            "."
+          )}` /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */,
           Body: this
             .file /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */,
           SliceSize:
@@ -80,5 +82,26 @@ export default class COSUploadFile {
         }
       );
     });
+  }
+
+  /**
+   * 生成hash
+   */
+  generateHashWithTimeAndRandom(name) {
+    const timestamp = Date.now().toString(); // 获取当前时间戳并转换为字符串
+    const randomNumber = this.getRandomNumber(1, 100); // 生成1~100的随机整数
+    const input = (timestamp + randomNumber + name).toString(16); // 组合时间戳和随机数
+
+    // 将组合后的数据转换为16进制表示
+    let hashHex = "";
+    for (let i = 0; i < input.length; i++) {
+      const hex = input.charCodeAt(i).toString(16);
+      hashHex += hex;
+    }
+    return hashHex;
+  }
+
+  getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
